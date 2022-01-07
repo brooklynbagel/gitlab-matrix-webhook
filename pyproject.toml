@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "gitlab-matrix-webhook"
+version = "0.1.0"
+description = "GitLab Webhook to notify Matrix"
+authors = ["Michael Beigelmacher <brooklynbagel@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.70.1"
+uvicorn = {extras = ["standard"], version = "^0.16.0"}
+matrix-nio = "^0.18.7"
+python-dotenv = "^0.19.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^21.12b0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
