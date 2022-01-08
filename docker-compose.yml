@@ -1,0 +1,14 @@
+services:
+  webhook:
+    build:
+      context: "."
+    env_file:
+      - ".env"
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8000/up"]
+      interval: "60s"
+      timeout: "3s"
+      start_period: "5s"
+      retries: 3
