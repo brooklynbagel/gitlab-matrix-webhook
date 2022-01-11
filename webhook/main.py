@@ -83,7 +83,7 @@ async def reciever(
 
 
 @app.get("/up", status_code=status.HTTP_200_OK)
-async def up():
+def up():
     """
     Check that the webhook service is up.
 
