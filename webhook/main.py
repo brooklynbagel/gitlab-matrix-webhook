@@ -89,4 +89,5 @@ def up():
 
     Returns an empty JSON object.
     """
+    # TODO: Check that talking to Matrix works
     return {}
