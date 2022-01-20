@@ -13,6 +13,7 @@ load_dotenv()
 GITLAB_TOKEN = os.getenv("GITLAB_TOKEN")
 MATRIX_SERVER = os.getenv("MATRIX_SERVER")
 MATRIX_USER = os.getenv("MATRIX_USER")
+MATRIX_DEVICE_ID = os.getenv("MATRIX_DEVICE_ID")
 MATRIX_PASSWORD = os.getenv("MATRIX_PASSWORD")
 MATRIX_ROOM_ID = os.getenv("MATRIX_ROOM_ID")
 
@@ -35,9 +36,11 @@ async def notify_element(event: PushEvent) -> None:
     )
 
     try:
-        client = AsyncClient(MATRIX_SERVER, MATRIX_USER)
+        client = AsyncClient(
+            homeserver=MATRIX_SERVER, user=MATRIX_USER, device_id=MATRIX_DEVICE_ID
+        )
         # TODO: See if can use a secured `token` instead of `password`
-        await client.login(MATRIX_PASSWORD)
+        await client.login(password=MATRIX_PASSWORD)
         await client.room_send(
             room_id=MATRIX_ROOM_ID,
             message_type="m.room.message",
