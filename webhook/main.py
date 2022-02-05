@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Header, Response, status
 from nio import AsyncClient
 
-from models import PushEvent
+from .models import PushEvent
 
 app = FastAPI()
 
