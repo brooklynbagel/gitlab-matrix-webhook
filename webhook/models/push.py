@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel
+from .webhook import WebhookEvent
 
 
 class Project(BaseModel):
@@ -48,8 +49,7 @@ class Commit(BaseModel):
     removed: List[str]
 
 
-class PushEvent(BaseModel):
-    object_kind: str
+class PushEvent(WebhookEvent):
     event_name: str
     before: str
     after: str
@@ -67,11 +67,3 @@ class PushEvent(BaseModel):
     total_commits_count: int
     # TODO: Add other fields for event, see:
     # https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#push-events
-
-
-# class MergeRequestEvent(BaseModel):
-#     object_kind: str
-
-
-# class Event(BaseModel):
-#     __root__: Union[PushEvent, MergeRequestEvent]
