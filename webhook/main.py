@@ -2,10 +2,12 @@ import os
 from typing import Optional
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, Header, Response, status
+from fastapi import FastAPI, Header, Response, Request, status
 from nio import AsyncClient
+from pydantic import parse_obj_as, ValidationError
 
-from .models import PushEvent
+from .models import WebhookEvent, PushEvent
+
 
 app = FastAPI()
 
@@ -57,7 +59,8 @@ async def notify_element(event: PushEvent) -> None:
 
 @app.post("/", status_code=status.HTTP_200_OK)
 async def reciever(
-    event: PushEvent,
+    event: WebhookEvent,
+    request: Request,
     response: Response,
     x_gitlab_event: Optional[str] = Header(None),
     x_gitlab_token: Optional[str] = Header(None),
@@ -81,7 +84,20 @@ async def reciever(
         response.status_code = status.HTTP_401_UNAUTHORIZED
         return {"ok": False, "error": "X-Gitlab-Token is not valid"}
 
-    await notify_element(event)
+    data = await request.json()
+    event_type = x_gitlab_event.replace(" ", "").replace("Hook", "Event")
+
+    try:
+        event_type = globals()[event_type]
+        event = parse_obj_as(event_type, data)
+    except KeyError:
+        pass
+    except ValidationError:
+        pass
+
+    if isinstance(event, PushEvent):
+        await notify_element(event)
+
     return {"ok": True, "error": None}
 
 
