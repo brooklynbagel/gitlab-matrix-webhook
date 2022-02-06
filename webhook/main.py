@@ -13,11 +13,11 @@ app = FastAPI()
 
 load_dotenv()
 GITLAB_TOKEN = os.getenv("GITLAB_TOKEN")
-MATRIX_SERVER = os.getenv("MATRIX_SERVER")
-MATRIX_USER = os.getenv("MATRIX_USER")
+MATRIX_SERVER = os.environ["MATRIX_SERVER"]
+MATRIX_USER = os.environ["MATRIX_USER"]
 MATRIX_DEVICE_ID = os.getenv("MATRIX_DEVICE_ID")
-MATRIX_PASSWORD = os.getenv("MATRIX_PASSWORD")
-MATRIX_ROOM_ID = os.getenv("MATRIX_ROOM_ID")
+MATRIX_PASSWORD = os.environ["MATRIX_PASSWORD"]
+MATRIX_ROOM_ID = os.environ["MATRIX_ROOM_ID"]
 
 
 async def notify_element(event: PushEvent) -> None:
